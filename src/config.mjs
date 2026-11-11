@@ -26,10 +26,11 @@ export const DEFAULTS = {
   statePath: 'state.json',
   logDir: 'logs',
 
-  intervalSec: 60, // 轮询间隔
+  intervalSec: 60, // 轮询间隔（仅 --daemon 模式使用）
   perPage: 300, // 每个场次最多取多少张
   catchUpDays: 3, // 启动时回补最近几天的课
-  endHour: 22, // 守护进程几点退出
+  startHour: 7, // 计划任务只在几点到几点之间干活
+  endHour: 22,
   notify: true, // Windows 通知
   headless: true,
   chromePath: '', // 留空自动探测

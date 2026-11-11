@@ -156,6 +156,11 @@ async function cmdDoctor() {
 }
 
 async function cmdOnce() {
+  const hour = new Date().getHours();
+  if (hour < (cfg.startHour ?? 7) || hour >= (cfg.endHour ?? 22)) {
+    log.info(`不在运行时段（${cfg.startHour ?? 7}:00 - ${cfg.endHour ?? 22}:00），跳过`);
+    return 0;
+  }
   return withBrowser(async (browser) => {
     const sessions = await loadSessions(browser);
     const targets = [...activeSessions(sessions), ...catchUpCandidates(sessions, cfg.catchUpDays)];
