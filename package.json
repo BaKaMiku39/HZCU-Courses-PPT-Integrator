@@ -1,5 +1,5 @@
 {
-  "name": "zhiyun-ppt",
+  "name": "hzcu-courses-ppt-integrator",
   "version": "1.0.0",
   "description": "自动抓取浙大城市学院「智云课堂」直播中推送的 PPT 幻灯片",
   "type": "module",

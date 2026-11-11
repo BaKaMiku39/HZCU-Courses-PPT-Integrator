@@ -36,8 +36,8 @@ node -v
 ## 二、拿到代码
 
 ```bat
-git clone https://github.com/<你的用户名>/zhiyun-ppt.git
-cd zhiyun-ppt
+git clone https://github.com/BaKaMiku39/HZCU-Courses-PPT-Integrator.git
+cd HZCU-Courses-PPT-Integrator
 ```
 
 没有 git 也可以：在 GitHub 页面点 **Code → Download ZIP**，解压后进入目录。
