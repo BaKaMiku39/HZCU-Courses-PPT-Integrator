@@ -9,6 +9,7 @@ import { Store } from './store.mjs';
 import { Logger } from './logger.mjs';
 import { notify } from './notify.mjs';
 import { syncSession, dayStamp } from './collector.mjs';
+import { buildIndex } from './indexer.mjs';
 
 const USAGE = `
 智云课堂 PPT 自动抓取
@@ -18,6 +19,7 @@ const USAGE = `
   node bin/zhiyun-ppt.mjs --login         打开窗口登录（会话过期时用）
   node bin/zhiyun-ppt.mjs --doctor        体检：登录态 / 课程数 / 今天的课
   node bin/zhiyun-ppt.mjs --backfill 7    回补最近 7 天的全部场次
+  node bin/zhiyun-ppt.mjs --index         生成可打印的索引页（浏览器可另存 PDF）
   node bin/zhiyun-ppt.mjs --help
 `;
 
@@ -158,6 +160,7 @@ async function cmdOnce() {
       log.info(`处理 ${s.title} ${dayStamp(s.start * 1000)} sub=${s.sub}`);
       await syncOne(browser, s);
     }
+    buildIndex(cfg.outDir, log);
     return 0;
   });
 }
@@ -196,6 +199,7 @@ async function cmdDaemon() {
       await withBrowser(async (browser) => {
         let sessions = await loadSessions(browser);
         let lastSweep = Date.now();
+        let lastIndexAt = 0;
         const seenActive = new Set();
 
         while (Date.now() < endAt.getTime()) {
@@ -210,13 +214,14 @@ async function cmdDaemon() {
             }
           }
 
+          let addedThisCycle = 0;
           for (const s of activeSessions(sessions, now)) {
             if (!seenActive.has(s.sub)) {
               seenActive.add(s.sub);
               log.info(`开始跟踪 ${s.title} sub=${s.sub}`);
             }
             try {
-              await syncOne(browser, s);
+              addedThisCycle += (await syncOne(browser, s)).added || 0;
             } catch (e) {
               if (e instanceof AuthLostError) throw e;
               log.warn(`${s.title} 抓取失败: ${e.message}`);
@@ -226,10 +231,19 @@ async function cmdDaemon() {
           for (const s of catchUpCandidates(sessions, cfg.catchUpDays).slice(0, 2)) {
             log.info(`回补 ${s.title} ${dayStamp(s.start * 1000)}`);
             try {
-              await syncOne(browser, s);
+              addedThisCycle += (await syncOne(browser, s)).added || 0;
             } catch (e) {
               if (e instanceof AuthLostError) throw e;
               log.warn(`回补 ${s.sub} 失败: ${e.message}`);
+            }
+          }
+
+          if (addedThisCycle && Date.now() - lastIndexAt > 5 * 60 * 1000) {
+            try {
+              buildIndex(cfg.outDir, log);
+              lastIndexAt = Date.now();
+            } catch (e) {
+              log.warn(`生成索引失败: ${e.message}`);
             }
           }
 
@@ -270,6 +284,10 @@ async function main() {
     return 0;
   }
   if (has('--doctor')) return cmdDoctor();
+  if (has('--index')) {
+    buildIndex(cfg.outDir, log);
+    return 0;
+  }
   if (has('--backfill')) return cmdBackfill(Number(valueOf('--backfill', 30)) || 30);
   if (has('--once')) return cmdOnce();
   return cmdDaemon();

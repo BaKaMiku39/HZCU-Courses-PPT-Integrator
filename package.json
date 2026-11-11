@@ -13,7 +13,8 @@
     "start": "node bin/zhiyun-ppt.mjs",
     "doctor": "node bin/zhiyun-ppt.mjs --doctor",
     "once": "node bin/zhiyun-ppt.mjs --once",
-    "login": "node bin/zhiyun-ppt.mjs --login"
+    "login": "node bin/zhiyun-ppt.mjs --login",
+    "index": "node bin/zhiyun-ppt.mjs --index"
   },
   "license": "MIT",
   "private": false
