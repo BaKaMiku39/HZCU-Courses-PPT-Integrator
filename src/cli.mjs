@@ -200,6 +200,7 @@ async function cmdDaemon() {
         let sessions = await loadSessions(browser);
         let lastSweep = Date.now();
         let lastIndexAt = 0;
+        let lastBeatAt = Date.now();
         const seenActive = new Set();
 
         while (Date.now() < endAt.getTime()) {
@@ -245,6 +246,11 @@ async function cmdDaemon() {
             } catch (e) {
               log.warn(`生成索引失败: ${e.message}`);
             }
+          }
+
+          if (Date.now() - lastBeatAt > 10 * 60 * 1000) {
+            log.info(`心跳：本地已存 ${store.totalSeen} 张，当前跟踪 ${activeSessions(sessions, Date.now()).length} 场`);
+            lastBeatAt = Date.now();
           }
 
           await sleep(cfg.intervalSec * 1000);

@@ -138,7 +138,7 @@ powershell -ExecutionPolicy Bypass -File scripts\install-task.ps1
 - 卸载：`powershell -ExecutionPolicy Bypass -File scripts\uninstall-task.ps1`
 - 看任务状态：`schtasks /Query /TN "智云课堂PPT抓取" /V /FO LIST`
 
-> 计划任务只在**开机且已登录**时执行。电脑睡眠期间不会抓，但醒来后（或下次 `npm run once`）会把整场补回来。
+> 计划任务只在**开机且已登录**时执行；已设为「电池供电也运行」「错过就补跑」「失败自动重试 3 次」，`endHour` 到点自动退出。电脑睡眠期间不会抓，但醒来后（或下次 `npm run once`）会把整场补回来。
 
 ## 九、命令一览
 
