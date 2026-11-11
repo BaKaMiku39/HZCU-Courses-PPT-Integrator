@@ -1,0 +1,21 @@
+{
+  "hosts": {
+    "classroom.hzcu.edu.cn": "202.107.195.247",
+    "yjapi.hzcu.edu.cn": "202.107.195.247",
+    "video.hzcu.edu.cn": "202.107.195.247",
+    "ca.hzcu.edu.cn": "202.107.195.222"
+  },
+  "tenantId": 21,
+  "outDir": "C:\\Users\\YOUR_NAME\\Documents\\PPT自动抓取",
+  "intervalSec": 60,
+  "perPage": 300,
+  "catchUpDays": 3,
+  "sweepEverySec": 900,
+  "endHour": 22,
+  "notify": true,
+  "headless": true,
+  "chromePath": "",
+  "profileDir": "profile",
+  "statePath": "state.json",
+  "logDir": "logs"
+}

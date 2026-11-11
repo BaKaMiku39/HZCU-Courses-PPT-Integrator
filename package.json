@@ -1,0 +1,20 @@
+{
+  "name": "zhiyun-ppt",
+  "version": "1.0.0",
+  "description": "自动抓取浙大城市学院「智云课堂」直播中推送的 PPT 幻灯片",
+  "type": "module",
+  "bin": {
+    "zhiyun-ppt": "bin/zhiyun-ppt.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node bin/zhiyun-ppt.mjs",
+    "doctor": "node bin/zhiyun-ppt.mjs --doctor",
+    "once": "node bin/zhiyun-ppt.mjs --once",
+    "login": "node bin/zhiyun-ppt.mjs --login"
+  },
+  "license": "MIT",
+  "private": false
+}

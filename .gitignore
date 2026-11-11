@@ -1,0 +1,24 @@
+# 运行时数据（绝对不要提交）
+profile/
+state.json
+state.legacy.json
+config.json
+logs/
+*.log
+NEED_LOGIN
+scripts/run.cmd
+ppt/
+out/
+
+# 系统
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Node
+node_modules/
+npm-debug.log*
+
+# 编辑器
+.vscode/
+.idea/
