@@ -30,6 +30,14 @@ const valueOf = (f, dflt) => {
   return i >= 0 && argv[i + 1] ? argv[i + 1] : dflt;
 };
 
+// 由计划任务（run.cmd 设置 ZPT_TASK=1）启动时，忽略控制台广播的 Ctrl+C，
+// 避免同一个控制台里的其他程序退出时把守护进程一起带走。
+if (process.env.ZPT_TASK === '1') {
+  for (const sig of ['SIGINT', 'SIGBREAK', 'SIGHUP']) {
+    process.on(sig, () => {});
+  }
+}
+
 const cfg = loadConfig();
 const log = new Logger(cfg.logDir);
 const store = new Store(cfg.statePath);

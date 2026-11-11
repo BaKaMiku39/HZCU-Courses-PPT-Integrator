@@ -16,6 +16,7 @@ $cmdPath = Join-Path $PSScriptRoot 'run.cmd'
 $body = @(
   '@echo off',
   'cd /d "%~dp0.."',
+  'set ZPT_TASK=1',
   "`"$node`" bin\zhiyun-ppt.mjs >> logs\task.log 2>&1"
 ) -join "`r`n"
 Set-Content -Path $cmdPath -Value $body -Encoding Default
@@ -52,7 +53,7 @@ $xml = @"
     <IdleSettings><StopOnIdleEnd>false</StopOnIdleEnd><RestartOnIdle>false</RestartOnIdle></IdleSettings>
     <AllowStartOnDemand>true</AllowStartOnDemand>
     <Enabled>true</Enabled>
-    <Hidden>false</Hidden>
+    <Hidden>true</Hidden>
     <RunOnlyIfIdle>false</RunOnlyIfIdle>
     <WakeToRun>false</WakeToRun>
     <ExecutionTimeLimit>PT0S</ExecutionTimeLimit>
